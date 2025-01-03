@@ -1,7 +1,7 @@
 import { type FileHandle, open } from "node:fs/promises";
 import { basename, join } from "node:path";
 
-const BUF_SIZE = 4096;
+const BUF_SIZE = 8192;
 const CHAR_LF = "\n".charCodeAt(0);
 export const LOG_DIR = process.env.NODE_ENV === "test" ? import.meta.dirname : "/var/log";
 
@@ -123,7 +123,7 @@ async function* readLines(handle: FileHandle, keyword: string, cursor: number): 
             break;
         }
 
-        end = position + j;
+        end = position + j + 1;
         buf = buf.subarray(0, Math.min(end, BUF_SIZE));
         position = Math.max(0, end - buf.byteLength);
         foundLF = false;
